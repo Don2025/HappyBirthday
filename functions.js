@@ -18,7 +18,7 @@ var S = {
         S.Drawing.init('.canvas');
         document.body.classList.add('body--ready');
         //想说的话
-        S.UI.simulate("谭尧丹|看这里|#countdown 3|生日快乐哟!|Happy Birthday!");
+        S.UI.simulate("|#countdown 3|亲爱的|妈妈|辛苦啦!");
         S.Drawing.loop(function () {
             S.Shape.render();
         });
@@ -35,7 +35,7 @@ S.Drawing = (function () {
             window.oRequestAnimationFrame ||
             window.msRequestAnimationFrame ||
             function (callback) {
-                window.setTimeout(callback, 1000 / 60);
+                window.setTimeout(callback, 1000);
             };
     return {
         init: function (el) {
@@ -447,9 +447,9 @@ S.Shape = (function () {
 }());
 
 function show_cake() {
-    cakeimg.src = "img/happy birthday.gif";
+    logo.src = "img/happy birthday.gif";
 }
 
 setInterval(show_date_time, 1000);
 S.init();
-setTimeout(show_cake, 10000);
+setTimeout(show_cake, 14000);
