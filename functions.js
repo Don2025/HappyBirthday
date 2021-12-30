@@ -1,9 +1,24 @@
+function show_date_time() {
+    window.setTimeout("show_date_time()", 1000);
+    birthday = new Date("2000/01/03 23:13:14");
+    today = new Date();
+    ms = (today.getTime() - birthday.getTime());
+    days = Math.floor(ms/(24*3600*1000));
+    remains = ms%(24*3600*1000);
+    hours = Math.floor(remains/(3600*1000));
+    remains = remains%(3600*1000);
+    minutes = Math.floor(remains/(60*1000));
+    remains = remains%(60*1000);
+    seconds = Math.round(remains/1000);
+    span_dt.innerHTML = days + "天" + hours + "时" + minutes + "分" + seconds + "秒";
+}
+
 var S = {
     init: function () {
         S.Drawing.init('.canvas');
         document.body.classList.add('body--ready');
         //想说的话
-        S.UI.simulate("谭尧丹|生日快乐哟|#countdown 3|Happy Birthday!");
+        S.UI.simulate("谭尧丹|看这里|#countdown 3|生日快乐哟!|Happy Birthday!");
         S.Drawing.loop(function () {
             S.Shape.render();
         });
@@ -116,16 +131,6 @@ S.UI = (function () {
                         }
                     }, 1000, value, true);
                     break;
-                case 'rectangle':
-                    value = value && value.split('x');
-                    value = (value && value.length === 2) ? value : [maxShapeSize, maxShapeSize / 2];
-                    S.Shape.switchShape(S.ShapeBuilder.rectangle(Math.min(maxShapeSize, parseInt(value[0])), Math.min(maxShapeSize, parseInt(value[1]))));
-                    break;
-                case 'circle':
-                    value = parseInt(value) || maxShapeSize;
-                    value = Math.min(value, maxShapeSize);
-                    S.Shape.switchShape(S.ShapeBuilder.circle(value));
-                    break;
                 case 'time':
                     var t = formatTime(new Date());
                     if (sequence.length > 0) {
@@ -141,7 +146,7 @@ S.UI = (function () {
                     }
                     break;
                 default:
-                    S.Shape.switchShape(S.ShapeBuilder.letter(current[0] === cmd ? 'HacPai' : current));
+                    S.Shape.switchShape(S.ShapeBuilder.letter(current[0] === cmd ? 'Happy!' : current));
             }
         }, 2000, sequence.length);
     }
@@ -337,15 +342,6 @@ S.ShapeBuilder = (function () {
             };
             image.src = url;
         },
-        circle: function (d) {
-            var r = Math.max(0, d) / 2;
-            shapeContext.clearRect(0, 0, shapeCanvas.width, shapeCanvas.height);
-            shapeContext.beginPath();
-            shapeContext.arc(r * gap, r * gap, r * gap, 0, 2 * Math.PI, false);
-            shapeContext.fill();
-            shapeContext.closePath();
-            return processCanvas();
-        },
         letter: function (l) {
             var s = 0;
             setFontSize(fontSize);
@@ -356,20 +352,6 @@ S.ShapeBuilder = (function () {
             shapeContext.clearRect(0, 0, shapeCanvas.width, shapeCanvas.height);
             shapeContext.fillText(l, shapeCanvas.width / 2, shapeCanvas.height / 2);
             return processCanvas();
-        },
-        rectangle: function (w, h) {
-            var dots = [],
-                width = gap * w,
-                height = gap * h;
-            for (var y = 0; y < height; y += gap) {
-                for (var x = 0; x < width; x += gap) {
-                    dots.push(new S.Point({
-                        x: x,
-                        y: y
-                    }));
-                }
-            }
-            return {dots: dots, w: width, h: height};
         }
     };
 }());
@@ -464,20 +446,10 @@ S.Shape = (function () {
     };
 }());
 
-S.init();
-
-function show_date_time() {
-    window.setTimeout("show_date_time()", 1000);
-    birthday = new Date("2000/01/03 23:13:14");
-    today = new Date();
-    ms = (today.getTime() - birthday.getTime());
-    days = Math.floor(ms/(24*3600*1000));
-    remains = ms%(24*3600*1000);
-    hours = Math.floor(remains/(3600*1000));
-    remains = remains%(3600*1000);
-    minutes = Math.floor(remains/(60*1000));
-    remains = remains%(60*1000);
-    seconds = Math.round(remains/1000);
-    span_dt_dt.innerHTML = days + "天" + hours + "时" + minutes + "分" + seconds + "秒";
+function show_cake() {
+    cakeimg.src = "img/happy birthday.gif";
 }
+
 setInterval(show_date_time, 1000);
+S.init();
+setTimeout(show_cake, 10000);
